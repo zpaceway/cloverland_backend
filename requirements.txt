@@ -1,1 +1,9 @@
 Django
+python-dotenv
+django-grappelli
+django-cors-headers
+django-tinymce
+psycopg2
+shortuuid
+web3
+sendgrid

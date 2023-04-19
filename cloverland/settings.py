@@ -5,10 +5,9 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-
+ALLOWED_HOST = os.getenv("ALLOWED_HOST")
 DEBUG = os.getenv("DEBUG") == "1"
-
-ALLOWED_HOSTS = []
+APP_BASE_URL = os.getenv("APP_BASE_URL")
 
 GRAPPELLI_ADMIN_TITLE = "Cloverland"
 
@@ -48,9 +47,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ALLOWED_HOSTS = [os.getenv("ALLOWED_HOST")]
-CORS_ALLOWED_ORIGINS = [os.getenv("APP_BASE_URL")]
-CSRF_TRUSTED_ORIGINS = [os.getenv("APP_BASE_URL")]
+ALLOWED_HOSTS = [ALLOWED_HOST]
+CORS_ALLOWED_ORIGINS = [APP_BASE_URL]
+CSRF_TRUSTED_ORIGINS = [APP_BASE_URL]
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "cloverland.urls"
@@ -81,7 +80,7 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": 5432,
+        "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
 
