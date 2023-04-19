@@ -11,15 +11,12 @@ services:
       context: .
       dockerfile: Dockerfile
     command:
-      - make
-      - run
-    environment:
-      POSTGRES_NAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      - python
+      - manage.py
+      - runserver
+      - "0.0.0.0:${PORT}"
     networks:
-      cloverland_network:
-        ipv4_address: ${ALLOWED_HOST}
+      cloverland_network: null
     ports:
       - mode: ingress
         target: ${PORT}
