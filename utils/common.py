@@ -1,6 +1,6 @@
 from typing import Optional
 from django.utils.safestring import mark_safe
-import shortuuid
+import uuid
 
 
 class PrefixedShortUuidGenerator:
@@ -10,7 +10,7 @@ class PrefixedShortUuidGenerator:
         self.prefix = prefix
 
     def generate(self):
-        return self.prefix + shortuuid.uuid()
+        return self.prefix + uuid.uuid4().hex[-12:]
 
 
 def make_link(
