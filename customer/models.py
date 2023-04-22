@@ -2,6 +2,10 @@ from django.db import models
 
 
 class Customer(models.Model):
+    id = models.CharField(
+        max_length=36,
+        primary_key=True,
+    )
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     email = models.EmailField(max_length=128, unique=True)
@@ -16,6 +20,7 @@ class Customer(models.Model):
 
     def representation(self):
         return {
+            "id": self.id,
             "firstName": self.first_name,
             "lastName": self.last_name,
             "email": self.email,

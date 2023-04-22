@@ -33,7 +33,6 @@ class LotteryAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = [
-        "id",
         "address",
         "private_key",
         "get_link",

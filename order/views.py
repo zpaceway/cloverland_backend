@@ -5,6 +5,7 @@ from order.models import Order
 from lottery.models import Lottery
 from django.middleware.csrf import get_token
 from utils.blockchain import create_wallet
+from utils.common import make_prefixed_uuid_generator
 from utils.communication import send_email
 from django.db import transaction
 from utils.http import submission
@@ -42,6 +43,7 @@ class OrderView(View):
         state = raw.get("state")
         zip_code = raw.get("zipCode")
         customer, _ = Customer.objects.get_or_create(
+            id=make_prefixed_uuid_generator("CU")(),
             email=email,
             defaults={
                 "first_name": first_name,
@@ -56,6 +58,7 @@ class OrderView(View):
         address, private_key = create_wallet()
 
         order = Order.objects.create(
+            id=make_prefixed_uuid_generator("OR")(),
             address=address,
             private_key=private_key,
             customer=customer,

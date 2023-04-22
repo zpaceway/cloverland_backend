@@ -14,6 +14,8 @@ initialize:
 
 reinstall:
 	rm -f $$(find . -type f -wholename "*migrations/0*.py")
+	docker compose down
+	docker compose up -d --build
 	make initialize
 
 defaultsuperuser:

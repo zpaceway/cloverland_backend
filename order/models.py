@@ -2,17 +2,15 @@ from django.db import models
 from utils.blockchain import transfer, web3
 import os
 from utils.communication import send_email
-from utils.common import prefixed_uuid_generator
 
 NETWORK_UNIT = os.getenv("NETWORK_UNIT")
 NETWORK_SYMBOL = os.getenv("NETWORK_SYMBOL")
 
 
 class Order(models.Model):
-    id = models.CharField(
+    id = models.UUIDField(
         max_length=36,
         primary_key=True,
-        default=prefixed_uuid_generator("ORD"),
     )
     address = models.CharField(max_length=128)
     private_key = models.CharField(max_length=128)

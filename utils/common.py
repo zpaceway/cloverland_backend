@@ -1,11 +1,17 @@
 from typing import Optional
 from django.utils.safestring import mark_safe
 import uuid
+import random
 
 
-def prefixed_uuid_generator(prefix: str):
+def make_prefixed_uuid_generator(prefix: str):
     def generate():
-        return prefix + uuid.uuid4().hex[-12:]
+        unique_part = uuid.uuid4().hex[-12:]
+        unique_part_randomized_uppercase = ""
+        for c in unique_part:
+            c = c if random.randint(0, 1) else c.upper()
+            unique_part_randomized_uppercase += c
+        return prefix + unique_part_randomized_uppercase
 
     return generate
 

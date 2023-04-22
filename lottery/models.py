@@ -1,6 +1,5 @@
 from django.db import models
 from tinymce import models as tinymce_models
-from utils.common import prefixed_uuid_generator
 import os
 
 NETWORK_SYMBOL = os.getenv("NETWORK_SYMBOL")
@@ -10,7 +9,6 @@ class Lottery(models.Model):
     id = models.CharField(
         max_length=36,
         primary_key=True,
-        default=prefixed_uuid_generator("LOT"),
     )
     name = models.CharField(max_length=128, unique=True)
     description = tinymce_models.HTMLField()
