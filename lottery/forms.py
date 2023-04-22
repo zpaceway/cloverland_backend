@@ -5,7 +5,7 @@ from utils.common import make_prefixed_uuid_generator
 
 class LotteryForm(forms.ModelForm):
     id = forms.CharField(
-        initial=make_prefixed_uuid_generator("LO."),
+        initial=make_prefixed_uuid_generator("LO-"),
         widget=forms.widgets.TextInput(attrs={"readonly": True}),
     )
 

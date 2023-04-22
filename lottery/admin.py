@@ -1,12 +1,8 @@
 from django.contrib import admin
+from cloverland.env import APP_BASE_URL, NETWORK_BLOCK_EXPLORER_BASE_URL, NETWORK_SYMBOL
 from lottery.forms import LotteryForm
 from lottery.models import Lottery
 from utils.common import make_link
-import os
-
-NETWORK_SYMBOL = os.getenv("NETWORK_SYMBOL")
-APP_BASE_URL = os.getenv("APP_BASE_URL")
-NETWORK_BLOCK_EXPLORER_BASE_URL = os.getenv("NETWORK_BLOCK_EXPLORER_BASE_URL")
 
 
 class LotteryAdmin(admin.ModelAdmin):

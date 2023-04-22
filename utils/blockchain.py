@@ -5,9 +5,10 @@ import os
 from web3 import Web3
 from web3.types import Wei
 
-NTWORK_RPC_URL = os.getenv("NETWORK_RPC_URL")
+from cloverland.env import NETWORK_RPC_URL
 
-web3 = Web3(Web3.HTTPProvider(NTWORK_RPC_URL))
+
+web3 = Web3(Web3.HTTPProvider(NETWORK_RPC_URL))
 
 
 def create_wallet() -> Tuple[str, str]:

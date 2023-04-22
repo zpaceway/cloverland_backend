@@ -1,13 +1,24 @@
 from pathlib import Path
-import os
+
+from cloverland.env import (
+    ALLOWED_HOST,
+    APP_BASE_URL,
+    POSTGRES_DB,
+    POSTGRES_HOST,
+    POSTGRES_PASSWORD,
+    POSTGRES_PORT,
+    POSTGRES_USER,
+    SECRET_KEY,
+    DEBUG,
+)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALLOWED_HOST = os.getenv("ALLOWED_HOST")
-DEBUG = os.getenv("DEBUG") == "1"
-APP_BASE_URL = os.getenv("APP_BASE_URL")
+SECRET_KEY = SECRET_KEY
+ALLOWED_HOST = ALLOWED_HOST
+DEBUG = DEBUG
+APP_BASE_URL = APP_BASE_URL
 
 GRAPPELLI_ADMIN_TITLE = "Cloverland"
 
@@ -76,11 +87,11 @@ WSGI_APPLICATION = "cloverland.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        "NAME": POSTGRES_DB,
+        "USER": POSTGRES_USER,
+        "PASSWORD": POSTGRES_PASSWORD,
+        "HOST": POSTGRES_HOST,
+        "PORT": POSTGRES_PORT,
     }
 }
 

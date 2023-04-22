@@ -17,11 +17,21 @@ class CustomerAdmin(admin.ModelAdmin):
         "state",
         "zip_code",
         "secret",
+        "get_link",
     ]
     readonly_fields = [
         "id",
         "secret",
     ]
+
+    @admin.display(description="Link")
+    def get_link(self, obj: Customer):
+        if not obj.id:
+            return ""
+
+        order_app_url = f"{APP_BASE_URL}/lottery/{obj.id}"
+
+        return make_link(url=order_app_url, label=order_app_url)
 
 
 admin.site.register(Customer, CustomerAdmin)

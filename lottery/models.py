@@ -1,8 +1,6 @@
 from django.db import models
 from tinymce import models as tinymce_models
-import os
-
-NETWORK_SYMBOL = os.getenv("NETWORK_SYMBOL")
+from cloverland.env import NETWORK_SYMBOL
 
 
 class Lottery(models.Model):

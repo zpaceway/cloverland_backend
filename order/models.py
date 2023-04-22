@@ -1,10 +1,7 @@
 from django.db import models
+from cloverland.env import NETWORK_UNIT
 from utils.blockchain import transfer, web3
-import os
 from utils.communication import send_email
-
-NETWORK_UNIT = os.getenv("NETWORK_UNIT")
-NETWORK_SYMBOL = os.getenv("NETWORK_SYMBOL")
 
 
 class Order(models.Model):

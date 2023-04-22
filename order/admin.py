@@ -1,12 +1,8 @@
 from typing import Optional
 from django.contrib import admin
-import os
+from cloverland.env import ADMIN_BASE_URL, APP_BASE_URL, NETWORK_BLOCK_EXPLORER_BASE_URL
 from order.models import Order
 from utils.common import make_link
-
-NETWORK_BLOCK_EXPLORER_BASE_URL = os.getenv("NETWORK_BLOCK_EXPLORER_BASE_URL")
-APP_BASE_URL = os.getenv("APP_BASE_URL")
-ADMIN_BASE_URL = os.getenv("ADMIN_BASE_URL")
 
 
 class OrderAdmin(admin.ModelAdmin):

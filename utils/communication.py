@@ -1,11 +1,9 @@
-import os
 from typing import List, Optional
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+from cloverland.env import SENDGRID_API_KEY, SENGRID_EMAIL_SENDER
 
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
-SENGRID_EMAIL_SENDER = os.getenv("SENGRID_EMAIL_SENDER")
 
 sengridEmailSender = SendGridAPIClient(SENDGRID_API_KEY)
 

@@ -1,13 +1,14 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-import os
 
-DEFAULT_SUPERUSER_USERNAME = os.getenv("DEFAULT_SUPERUSER_USERNAME")
-DEFAULT_SUPERUSER_FIRST_NAME = os.getenv("DEFAULT_SUPERUSER_FIRST_NAME")
-DEFAULT_SUPERUSER_LAST_NAME = os.getenv("DEFAULT_SUPERUSER_LAST_NAME")
-DEFAULT_SUPERUSER_EMAIL = os.getenv("DEFAULT_SUPERUSER_EMAIL")
-DEFAULT_SUPERUSER_PASSWORD = os.getenv("DEFAULT_SUPERUSER_PASSWORD")
+from cloverland.env import (
+    DEFAULT_SUPERUSER_EMAIL,
+    DEFAULT_SUPERUSER_FIRST_NAME,
+    DEFAULT_SUPERUSER_LAST_NAME,
+    DEFAULT_SUPERUSER_PASSWORD,
+    DEFAULT_SUPERUSER_USERNAME,
+)
 
 
 class Command(BaseCommand):
