@@ -23,3 +23,6 @@ defaultsuperuser:
 
 logs:
 	docker logs -f cloverland_backend
+
+restart:
+	docker restart cloverland_backend

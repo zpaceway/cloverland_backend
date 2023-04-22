@@ -43,22 +43,23 @@ class OrderView(View):
         state = raw.get("state")
         zip_code = raw.get("zipCode")
         customer, _ = Customer.objects.get_or_create(
-            id=make_prefixed_uuid_generator("CU")(),
             email=email,
             defaults={
+                "id": make_prefixed_uuid_generator("CU.")(),
                 "first_name": first_name,
                 "last_name": last_name,
                 "country": country,
                 "phone": phone,
                 "state": state,
                 "zip_code": zip_code,
+                "secret": make_prefixed_uuid_generator("SE.")(),
             },
         )
 
         address, private_key = create_wallet()
 
         order = Order.objects.create(
-            id=make_prefixed_uuid_generator("OR")(),
+            id=make_prefixed_uuid_generator("OR.")(),
             address=address,
             private_key=private_key,
             customer=customer,
