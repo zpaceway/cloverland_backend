@@ -3,14 +3,11 @@ from django.utils.safestring import mark_safe
 import uuid
 
 
-class PrefixedShortUuidGenerator:
-    prefix: str
+def prefixed_uuid_generator(prefix: str):
+    def generate():
+        return prefix + uuid.uuid4().hex[-12:]
 
-    def __init__(self, prefix):
-        self.prefix = prefix
-
-    def generate(self):
-        return self.prefix + uuid.uuid4().hex[-12:]
+    return generate
 
 
 def make_link(
