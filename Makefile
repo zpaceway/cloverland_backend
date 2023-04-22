@@ -20,3 +20,6 @@ reinstall:
 
 defaultsuperuser:
 	docker exec -it cloverland_backend python manage.py one_time_create_default_superuser
+
+logs:
+	docker logs -f cloverland_backend

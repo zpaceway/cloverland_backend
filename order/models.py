@@ -8,7 +8,7 @@ NETWORK_SYMBOL = os.getenv("NETWORK_SYMBOL")
 
 
 class Order(models.Model):
-    id = models.UUIDField(
+    id = models.CharField(
         max_length=36,
         primary_key=True,
     )

@@ -44,6 +44,9 @@ class LotteryAdmin(admin.ModelAdmin):
 
     @admin.display(description="Link")
     def get_link(self, obj: Lottery):
+        if not obj.id:
+            return ""
+
         order_app_url = f"{APP_BASE_URL}/lottery/{obj.id}"
 
         return make_link(url=order_app_url, label=order_app_url)
