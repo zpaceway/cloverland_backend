@@ -1,6 +1,8 @@
 from django.contrib import admin
+from cloverland.env import APP_BASE_URL
 from customer.models import Customer
 from django.contrib.auth.models import User, Group
+from utils.common import make_link
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
@@ -29,7 +31,7 @@ class CustomerAdmin(admin.ModelAdmin):
         if not obj.id:
             return ""
 
-        order_app_url = f"{APP_BASE_URL}/lottery/{obj.id}"
+        order_app_url = f"{APP_BASE_URL}/customer/{obj.secret}/{obj.id}"
 
         return make_link(url=order_app_url, label=order_app_url)
 
