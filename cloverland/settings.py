@@ -3,6 +3,7 @@ from pathlib import Path
 from cloverland.env import (
     ALLOWED_HOST,
     APP_BASE_URL,
+    MONGODB_DATABASE_NAME,
     MONGODB_URI,
     SECRET_KEY,
     DEBUG,
@@ -66,7 +67,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "anon": "5/second",
+        "anon": "10/second",
     },
 }
 
@@ -93,7 +94,7 @@ WSGI_APPLICATION = "cloverland.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
-        "NAME": "test",
+        "NAME": MONGODB_DATABASE_NAME,
         "CLIENT": {"host": MONGODB_URI},
     }
 }
