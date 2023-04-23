@@ -28,3 +28,4 @@ services:
         target: /code
         bind:
           create_host_path: true
+    restart: always

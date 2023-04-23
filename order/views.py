@@ -13,8 +13,7 @@ from utils.http import submission
 
 
 class OrderView(View):
-    def get(self, request):
-        order_id = request.GET.get("orderId")
+    def get(self, request, order_id):
         order = Order.objects.get(id=order_id)
         response = JsonResponse(order.representation())
         csrftoken = get_token(request)
@@ -30,16 +29,17 @@ class OrderView(View):
     def post(self, request):
         raw = submission(request)
 
-        lottery_id = raw.get("lotteryId")
+        lottery_id = raw["lotteryId"]
+        customer_info = raw["customerInfo"]
         lottery = Lottery.objects.get(id=lottery_id)
 
-        first_name = raw.get("firstName")
-        last_name = raw.get("lastName")
-        email = raw.get("email")
-        country = raw.get("country")
-        phone = raw.get("phone")
-        state = raw.get("state")
-        zip_code = raw.get("zipCode")
+        first_name = customer_info.get("firstName")
+        last_name = customer_info.get("lastName")
+        email = customer_info.get("email")
+        country = customer_info.get("country")
+        phone = customer_info.get("phone")
+        state = customer_info.get("state")
+        zip_code = customer_info.get("zipCode")
         customer, _ = Customer.objects.get_or_create(
             email=email,
             defaults={

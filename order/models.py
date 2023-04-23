@@ -1,5 +1,10 @@
 from django.db import models
-from cloverland.env import NETWORK_UNIT
+from cloverland.env import (
+    ADMIN_BASE_URL,
+    APP_BASE_URL,
+    NETWORK_BLOCK_EXPLORER_BASE_URL,
+    NETWORK_UNIT,
+)
 from utils.blockchain import transfer, web3
 from utils.communication import send_email
 
@@ -26,6 +31,18 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_wallet_address_link(self):
+        return f"{NETWORK_BLOCK_EXPLORER_BASE_URL}/address/{self.address}"
+
+    def get_app_link(self):
+        return f"{APP_BASE_URL}/order/{self.id}"
+
+    def get_transaction_link(self):
+        return f"{NETWORK_BLOCK_EXPLORER_BASE_URL}/tx/{self.transaction_hash}"
+
+    def get_admin_link(self):
+        return f"{ADMIN_BASE_URL}/admin/lottery/lottery/{self.lottery.id}/change/"
 
     def representation(self):
         return {

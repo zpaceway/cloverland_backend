@@ -1,5 +1,5 @@
 from django.contrib import admin
-from cloverland.env import APP_BASE_URL, NETWORK_BLOCK_EXPLORER_BASE_URL, NETWORK_SYMBOL
+from cloverland.env import NETWORK_SYMBOL
 from lottery.forms import LotteryForm
 from lottery.models import Lottery
 from utils.common import make_link
@@ -43,15 +43,11 @@ class LotteryAdmin(admin.ModelAdmin):
         if not obj.id:
             return ""
 
-        order_app_url = f"{APP_BASE_URL}/lottery/{obj.id}"
-
-        return make_link(url=order_app_url, label=order_app_url)
+        return make_link(url=obj.get_app_link(), label=obj.get_app_link())
 
     @admin.display(description="Address")
     def get_address(self, obj: Lottery):
-        address_url = f"{NETWORK_BLOCK_EXPLORER_BASE_URL}/address/{obj.address}"
-
-        return make_link(url=address_url, label=obj.address)
+        return make_link(url=obj.get_wallet_address_link(), label=obj.address)
 
 
 admin.site.register(Lottery, LotteryAdmin)

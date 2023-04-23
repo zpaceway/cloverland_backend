@@ -1,5 +1,7 @@
 from django.db import models
 
+from cloverland.env import ADMIN_BASE_URL, APP_BASE_URL
+
 
 class Customer(models.Model):
     id = models.CharField(
@@ -18,11 +20,18 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_app_sign_in_link(self):
+        return f"{APP_BASE_URL}/customer/?customerSecret={self.secret}&customerId={self.id}"
+
+    def get_admin_link(self):
+        return f"{ADMIN_BASE_URL}/admin/customer/customer/{self.id}/change/"
+
     def representation(self):
         return {
             "id": self.id,
             "firstName": self.first_name,
             "lastName": self.last_name,
+            "fullName": f"{self.first_name} {self.last_name}".strip(),
             "email": self.email,
             "phone": self.phone,
             "country": self.country,

@@ -1,5 +1,4 @@
 from django.contrib import admin
-from cloverland.env import APP_BASE_URL
 from customer.models import Customer
 from django.contrib.auth.models import User, Group
 from utils.common import make_link
@@ -21,9 +20,24 @@ class CustomerAdmin(admin.ModelAdmin):
         "secret",
         "get_link",
     ]
+
+    fields = [
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+        "country",
+        "state",
+        "zip_code",
+        "secret",
+        "get_link",
+    ]
+
     readonly_fields = [
         "id",
         "secret",
+        "get_link",
     ]
 
     @admin.display(description="Link")
@@ -31,9 +45,9 @@ class CustomerAdmin(admin.ModelAdmin):
         if not obj.id:
             return ""
 
-        order_app_url = f"{APP_BASE_URL}/customer/{obj.secret}/{obj.id}"
-
-        return make_link(url=order_app_url, label=order_app_url)
+        return make_link(
+            url=obj.get_app_sign_in_link(), label=obj.get_app_sign_in_link()
+        )
 
 
 admin.site.register(Customer, CustomerAdmin)

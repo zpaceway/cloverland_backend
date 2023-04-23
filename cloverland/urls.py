@@ -1,12 +1,19 @@
 from django.contrib import admin
 from django.urls import path, include
-from lottery.views import LotteryView
+from customer.views import CustomerAuthView, CustomerView
+from lottery.views import LotteryListView, LotteryView
 from order.views import OrderView
 
 urlpatterns = [
-    path("grappelli/", include("grappelli.urls")),  # grappelli URLS
+    path("grappelli/", include("grappelli.urls")),
     path("admin/", admin.site.urls),
-    path("api/order", OrderView.as_view()),
-    path("api/lottery", LotteryView.as_view()),
+    path("api/auth/", CustomerAuthView.as_view()),
+    path(
+        "api/customer/<str:customer_id>/<str:customer_secret>/", CustomerView.as_view()
+    ),
+    path("api/lottery/", LotteryListView.as_view()),
+    path("api/lottery/<str:lottery_id>/", LotteryView.as_view()),
+    path("api/order/", OrderView.as_view()),
+    path("api/order/<str:order_id>/", OrderView.as_view()),
     path("tinymce/", include("tinymce.urls")),
 ]
