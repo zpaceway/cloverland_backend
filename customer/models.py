@@ -26,19 +26,40 @@ class Customer(models.Model):
     def get_admin_link(self):
         return f"{ADMIN_BASE_URL}/admin/customer/customer/{self.id}/change/"
 
-    def representation(self):
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+
+    def representation(self, exclude_fields=None):
+        exclude_fields = exclude_fields or set()
         return {
-            "id": self.id,
-            "firstName": self.first_name,
-            "lastName": self.last_name,
-            "fullName": f"{self.first_name} {self.last_name}".strip(),
-            "email": self.email,
-            "phone": self.phone,
-            "country": self.country,
-            "state": self.state,
-            "zipCode": self.zip_code,
-            "createdAt": self.created_at.isoformat(),
-            "updatedAt": self.updated_at.isoformat(),
+            "id": (self.id if not "id" in exclude_fields else ""),
+            "firstName": (
+                self.first_name if not "first_name" in exclude_fields else ""
+            ),
+            "lastName": (self.last_name if not "last_name" in exclude_fields else ""),
+            "fullName": (
+                self.get_full_name() if not "full_name" in exclude_fields else ""
+            ),
+            "email": (self.email if not "email" in exclude_fields else ""),
+            "phone": (self.phone if not "phone" in exclude_fields else ""),
+            "country": (self.country if not "country" in exclude_fields else ""),
+            "state": (self.state if not "state" in exclude_fields else ""),
+            "zipCode": (self.zip_code if not "zip_code" in exclude_fields else ""),
+            "createdAt": (
+                self.created_at.isoformat()
+                if not "created_at" in exclude_fields
+                else ""
+            ),
+            "updatedAt": (
+                self.updated_at.isoformat()
+                if not "updated_at" in exclude_fields
+                else ""
+            ),
+            "orders": (
+                ([order.representation(validate=False) for order in self.orders.all()])
+                if not "orders" in exclude_fields
+                else []
+            ),
         }
 
     def __str__(self) -> str:

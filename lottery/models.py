@@ -48,7 +48,7 @@ class Lottery(models.Model):
                 if not "updated_at" in exclude_fields
                 else ""
             ),
-            "app_link": self.get_app_link(),
+            "walletAddressLink": self.get_wallet_address_link(),
         }
 
     def __str__(self) -> str:

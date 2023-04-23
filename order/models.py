@@ -44,15 +44,16 @@ class Order(models.Model):
     def get_admin_link(self):
         return f"{ADMIN_BASE_URL}/admin/lottery/lottery/{self.lottery.id}/change/"
 
-    def representation(self):
+    def representation(self, validate=True):
         return {
             "id": self.id,
             "address": self.address,
-            "paid": self.paid or self.validate(),
-            "lottery": self.lottery.representation(),
-            "customer": self.customer.representation(),
+            "paid": self.paid or (self.validate() if validate else False),
+            "lottery": self.lottery.representation(exclude_fields=("description",)),
+            "customer": self.customer.representation(exclude_fields=("orders",)),
             "createdAt": self.created_at.isoformat(),
             "updatedAt": self.updated_at.isoformat(),
+            "walletAddressLink": self.get_wallet_address_link(),
         }
 
     def validate(self):
