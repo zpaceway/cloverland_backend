@@ -12,9 +12,8 @@ from cloverland.env import (
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = SECRET_KEY
-ALLOWED_HOST = ALLOWED_HOST
+
 DEBUG = DEBUG
-APP_BASE_URL = APP_BASE_URL
 
 GRAPPELLI_ADMIN_TITLE = "Cloverland"
 
@@ -56,8 +55,20 @@ MIDDLEWARE = [
 
 ALLOWED_HOSTS = [ALLOWED_HOST]
 CORS_ALLOWED_ORIGINS = [APP_BASE_URL]
-CSRF_TRUSTED_ORIGINS = [APP_BASE_URL]
 CORS_ALLOW_CREDENTIALS = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "5/second",
+    },
+}
 
 ROOT_URLCONF = "cloverland.urls"
 
@@ -115,5 +126,3 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-CSRF_COOKIE_DOMAIN = "localhost"

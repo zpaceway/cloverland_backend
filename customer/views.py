@@ -1,12 +1,12 @@
 from django.http import JsonResponse
-from django.views import View
+from rest_framework.views import APIView
 from cloverland.env import APP_BASE_URL
 from utils.communication import send_email
 from customer.models import Customer
 from utils.http import submission
 
 
-class CustomerView(View):
+class CustomerView(APIView):
     def get(
         self,
         request,
@@ -22,7 +22,7 @@ class CustomerView(View):
         return response
 
 
-class CustomerAuthView(View):
+class CustomerAuthView(APIView):
     def post(self, request):
         raw = submission(request)
         customer = Customer.objects.get(email=raw["email"])

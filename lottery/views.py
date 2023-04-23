@@ -1,9 +1,9 @@
 from django.http import JsonResponse
-from django.views import View
+from rest_framework.views import APIView
 from lottery.models import Lottery
 
 
-class LotteryView(View):
+class LotteryView(APIView):
     def get(self, request, lottery_id):
         lottery = Lottery.objects.get(id=lottery_id)
         response = JsonResponse(lottery.representation())
@@ -11,7 +11,7 @@ class LotteryView(View):
         return response
 
 
-class LotteryListView(View):
+class LotteryListView(APIView):
     def get(self, request):
         exclude_fields = ("description",)
         lotteries = Lottery.objects.filter().defer(*exclude_fields)

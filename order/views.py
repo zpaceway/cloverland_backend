@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.views import View
+from rest_framework.views import APIView
 from customer.models import Customer
 from cloverland.env import APP_BASE_URL
 from order.models import Order
@@ -12,7 +12,7 @@ from django.db import transaction
 from utils.http import submission
 
 
-class OrderView(View):
+class OrderView(APIView):
     def get(self, request, order_id):
         order = Order.objects.get(id=order_id)
         response = JsonResponse(order.representation())
