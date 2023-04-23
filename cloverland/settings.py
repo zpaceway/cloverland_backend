@@ -3,11 +3,7 @@ from pathlib import Path
 from cloverland.env import (
     ALLOWED_HOST,
     APP_BASE_URL,
-    POSTGRES_DB,
-    POSTGRES_HOST,
-    POSTGRES_PASSWORD,
-    POSTGRES_PORT,
-    POSTGRES_USER,
+    MONGODB_URI,
     SECRET_KEY,
     DEBUG,
 )
@@ -83,15 +79,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "cloverland.wsgi.application"
 
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": POSTGRES_DB,
-        "USER": POSTGRES_USER,
-        "PASSWORD": POSTGRES_PASSWORD,
-        "HOST": POSTGRES_HOST,
-        "PORT": POSTGRES_PORT,
+        "ENGINE": "djongo",
+        "NAME": "test",
+        "CLIENT": {"host": MONGODB_URI},
     }
 }
 

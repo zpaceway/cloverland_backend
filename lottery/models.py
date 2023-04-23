@@ -12,7 +12,7 @@ class Lottery(models.Model):
     description = tinymce_models.HTMLField()
     address = models.CharField(max_length=128)
     private_key = models.CharField(max_length=128)
-    price = models.DecimalField(decimal_places=18, max_digits=36)
+    price = models.FloatField()
     ends_at = models.DateField()
 
     created_at = models.DateTimeField(auto_now_add=True)

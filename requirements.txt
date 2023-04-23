@@ -1,8 +1,11 @@
-Django
+Django==4.0.2
+pymongo==3.12.1
+djongo
+pytz
+dnspython
 python-dotenv
 django-grappelli
 django-cors-headers
 django-tinymce
-psycopg2
 web3
 sendgrid

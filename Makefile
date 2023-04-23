@@ -12,11 +12,14 @@ initialize:
 	make migrate
 	make defaultsuperuser
 
-reinstall:
-	rm -f $$(find . -type f -wholename "*migrations/0*.py")
+install:
 	docker rm -f cloverland_backend
 	docker compose up -d --build
 	make initialize
+
+reinstall:
+	rm -f $$(find . -type f -wholename "*migrations/0*.py")
+	make install
 
 defaultsuperuser:
 	docker exec -it cloverland_backend python manage.py one_time_create_default_superuser

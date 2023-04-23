@@ -1,9 +1,5 @@
 name: cloverland_backend
 
-networks:
-  cloverland_network:
-    external: true
-
 services:
   web:
     container_name: cloverland_backend
@@ -15,8 +11,6 @@ services:
       - manage.py
       - runserver
       - "0.0.0.0:${PORT}"
-    networks:
-      cloverland_network: null
     ports:
       - mode: ingress
         target: ${PORT}
