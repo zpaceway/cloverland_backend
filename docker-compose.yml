@@ -7,15 +7,10 @@ services:
       context: .
       dockerfile: Dockerfile
     command:
-      - python
-      - manage.py
-      - runserver
-      - "0.0.0.0:${PORT}"
+      - sleep
+      - infinity
     ports:
-      - mode: ingress
-        target: ${PORT}
-        published: ${PORT}
-        protocol: tcp
+      - ${PORT}:${PORT}
     volumes:
       - type: bind
         source: ./

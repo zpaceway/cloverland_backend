@@ -13,15 +13,9 @@ class LotteryView(APIView):
 
 class LotteryListView(APIView):
     def get(self, request):
-        exclude_fields = ("description",)
-        lotteries = Lottery.objects.filter().defer(*exclude_fields)
+        lotteries = Lottery.objects.filter()
         response = JsonResponse(
-            {
-                "results": [
-                    lottery.representation(exclude_fields=exclude_fields)
-                    for lottery in lotteries
-                ]
-            }
+            {"results": [lottery.representation() for lottery in lotteries]}
         )
 
         return response

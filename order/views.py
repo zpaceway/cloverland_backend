@@ -15,6 +15,7 @@ from utils.http import submission
 class OrderView(APIView):
     def get(self, request, order_id):
         order = Order.objects.get(id=order_id)
+        order.validate()
         response = JsonResponse(order.representation())
         csrftoken = get_token(request)
         response.set_cookie(
@@ -40,7 +41,7 @@ class OrderView(APIView):
         phone = customer_info.get("phone")
         state = customer_info.get("state")
         zip_code = customer_info.get("zipCode")
-        customer, _ = Customer.objects.get_or_create(
+        customer, new_customer = Customer.objects.get_or_create(
             email=email,
             defaults={
                 "id": make_prefixed_uuid_generator("CU")(),
@@ -76,4 +77,16 @@ class OrderView(APIView):
             ),
         )
 
-        return JsonResponse(order.representation())
+        return JsonResponse(
+            {
+                "order": order.representation(),
+                "credentials": (
+                    {
+                        "id": customer.id,
+                        "secret": customer.secret,
+                    }
+                    if new_customer
+                    else {"id": "", "secret": ""}
+                ),
+            }
+        )
