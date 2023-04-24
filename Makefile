@@ -5,7 +5,7 @@ migrations:
 	docker exec -it cloverland_backend python manage.py makemigrations
 
 run:
-	docker exec -it cloverland_backend python manage.py runserver 0.0.0.0:5183
+	python manage.py runserver 0.0.0.0:5183
 
 initialize:
 	make migrations
@@ -23,6 +23,9 @@ reinstall:
 
 defaultsuperuser:
 	docker exec -it cloverland_backend python manage.py one_time_create_default_superuser
+
+logs:
+	docker logs -f cloverland_backend
 
 restart:
 	docker restart cloverland_backend

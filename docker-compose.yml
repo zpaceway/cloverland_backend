@@ -7,14 +7,10 @@ services:
       context: .
       dockerfile: Dockerfile
     command:
-      - sleep
-      - infinity
+      - make
+      - run
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - type: bind
-        source: ./
-        target: /code
-        bind:
-          create_host_path: true
+      - ./:/code
     restart: always
