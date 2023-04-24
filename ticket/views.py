@@ -58,7 +58,7 @@ class TicketView(APIView):
         address, private_key = create_wallet()
 
         ticket = Ticket.objects.create(
-            id=make_prefixed_uuid_generator("OR")(),
+            id=make_prefixed_uuid_generator("TK")(),
             address=address,
             private_key=private_key,
             customer=customer,
