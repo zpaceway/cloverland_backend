@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from customer.models import Customer
 from cloverland.env import APP_BASE_URL
-from order.models import Order
+from ticket.models import Ticket
 from lottery.models import Lottery
 from django.middleware.csrf import get_token
 from utils.blockchain import create_wallet
@@ -12,11 +12,11 @@ from django.db import transaction
 from utils.http import submission
 
 
-class OrderView(APIView):
-    def get(self, request, order_id):
-        order = Order.objects.get(id=order_id)
-        order.validate()
-        response = JsonResponse(order.representation())
+class TicketView(APIView):
+    def get(self, request, ticket_id):
+        ticket = Ticket.objects.get(id=ticket_id)
+        ticket.validate()
+        response = JsonResponse(ticket.representation())
         csrftoken = get_token(request)
         response.set_cookie(
             "csrftoken",
@@ -57,7 +57,7 @@ class OrderView(APIView):
 
         address, private_key = create_wallet()
 
-        order = Order.objects.create(
+        ticket = Ticket.objects.create(
             id=make_prefixed_uuid_generator("OR")(),
             address=address,
             private_key=private_key,
@@ -65,21 +65,21 @@ class OrderView(APIView):
             lottery=lottery,
         )
 
-        order_app_url = f"{APP_BASE_URL}/order/{order.id}"
+        ticket_app_url = f"{APP_BASE_URL}/ticket/{ticket.id}"
 
         send_email(
             to_emails=[email],
-            subject="Order created",
+            subject="Ticket created",
             plain_text_content=(
-                f"Your order #{order.id} was created, please follow the link down bellow to continue with your payment.\n\n"
-                f"{order_app_url}\n\n"
+                f"Your ticket #{ticket.id} was created, please follow the link down bellow to continue with your payment.\n\n"
+                f"{ticket_app_url}\n\n"
                 "Regards, Cloverland team."
             ),
         )
 
         return JsonResponse(
             {
-                "order": order.representation(),
+                "ticket": ticket.representation(),
                 "credentials": (
                     {
                         "id": customer.id,

@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "customer",
     "lottery",
-    "order",
+    "ticket",
 ]
 
 TINYMCE_DEFAULT_CONFIG = {

@@ -42,7 +42,7 @@ class Customer(models.Model):
             "zipCode": self.zip_code,
             "createdAt": self.created_at.isoformat(),
             "updatedAt": self.updated_at.isoformat(),
-            "orders": [order.representation() for order in self.orders.all()],
+            "tickets": [ticket.representation() for ticket in self.tickets.all()],
         }
 
     def __str__(self) -> str:
