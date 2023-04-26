@@ -13,7 +13,7 @@ class LotteryView(APIView):
 
 class LotteryListView(APIView):
     def get(self, request):
-        lotteries = Lottery.objects.filter()
+        lotteries = Lottery.objects.all().order_by("-created_at")
         response = JsonResponse(
             {"results": [lottery.representation() for lottery in lotteries]}
         )
