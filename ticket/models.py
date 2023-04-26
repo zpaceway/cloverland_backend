@@ -62,6 +62,9 @@ class Ticket(models.Model):
         }
 
     def validate(self):
+        if self.paid:
+            return
+
         ticket_balance = web3.eth.get_balance(self.address)
         paid = ticket_balance >= web3.to_wei(self.lottery.price, NETWORK_UNIT)
         if paid:
@@ -81,9 +84,8 @@ class Ticket(models.Model):
             )
 
         self.paid = paid
-        self.save()
 
-        return self.paid
+        self.save()
 
     def __str__(self) -> str:
         return self.id
