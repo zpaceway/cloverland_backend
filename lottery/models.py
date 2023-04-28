@@ -1,6 +1,6 @@
 from django.db import models
 from tinymce import models as tinymce_models
-from cloverland.env import APP_BASE_URL, NETWORK_BLOCK_EXPLORER_BASE_URL, NETWORK_SYMBOL
+from cloverland.env import APP_BASE_URL, NETWORK_BLOCK_EXPLORER_BASE_URL
 
 
 class Lottery(models.Model):
@@ -23,20 +23,6 @@ class Lottery(models.Model):
 
     def get_wallet_address_link(self):
         return f"{NETWORK_BLOCK_EXPLORER_BASE_URL}/address/{self.address}"
-
-    def representation(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "address": self.address,
-            "price": float(self.price),
-            "symbol": NETWORK_SYMBOL,
-            "endsAt": self.ends_at.isoformat(),
-            "createdAt": self.created_at.isoformat(),
-            "updatedAt": self.updated_at.isoformat(),
-            "walletAddressLink": self.get_wallet_address_link(),
-        }
 
     def __str__(self) -> str:
         return self.name

@@ -1,31 +1,21 @@
 from django.http import JsonResponse
-from rest_framework.views import APIView
+from rest_framework import generics
 from cloverland.env import APP_BASE_URL
+from cloverland.mixins import MultipleFieldsLookupMixin
+from customer.serializers import CustomerSerializer
 from utils.communication import send_email
 from customer.models import Customer
-from utils.http import submission
 
 
-class CustomerView(APIView):
-    def get(
-        self,
-        request,
-        customer_id,
-        customer_secret,
-    ):
-        customer = Customer.objects.get(
-            id=customer_id,
-            secret=customer_secret,
-        )
-        response = JsonResponse(customer.representation())
-
-        return response
+class CustomerView(generics.RetrieveAPIView, MultipleFieldsLookupMixin):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    lookup_fields = ["pk", "secret"]
 
 
-class CustomerAuthView(APIView):
+class CustomerAuthView(generics.GenericAPIView):
     def post(self, request):
-        raw = submission(request)
-        customer = Customer.objects.get(email=raw["email"])
+        customer = Customer.objects.get(email=request.data["email"])
         customer_app_url = f"{APP_BASE_URL}/customer/?customerSecret={customer.secret}&customerId={customer.id}"
 
         send_email(

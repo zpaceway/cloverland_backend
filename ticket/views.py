@@ -1,10 +1,10 @@
 from django.http import JsonResponse
-from rest_framework.views import APIView
+from rest_framework import generics
 from customer.models import Customer
 from cloverland.env import APP_BASE_URL
 from ticket.models import Ticket
 from lottery.models import Lottery
-from django.middleware.csrf import get_token
+from ticket.serializers import TicketSerializer
 from utils.blockchain import create_wallet
 from utils.common import make_prefixed_uuid_generator
 from utils.communication import send_email
@@ -12,35 +12,32 @@ from django.db import transaction
 from utils.http import submission
 
 
-class TicketView(APIView):
-    def get(self, request, ticket_id):
-        ticket = Ticket.objects.get(id=ticket_id)
-        ticket.validate()
-        response = JsonResponse(ticket.representation())
-        csrftoken = get_token(request)
-        response.set_cookie(
-            "csrftoken",
-            csrftoken,
-            samesite="Lax",
-        )
+class TicketView(generics.RetrieveAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
 
-        return response
+    def get_object(self):
+        obj = super().get_object()
+        obj.validate()
+        return obj
 
+
+class TicketCreateView(generics.GenericAPIView):
     @transaction.atomic
     def post(self, request):
         raw = submission(request)
 
-        lottery_id = raw["lotteryId"]
-        customer_info = raw["customerInfo"]
+        lottery_id = raw["lottery_id"]
+        customer_info = raw["customer_info"]
         lottery = Lottery.objects.get(id=lottery_id)
 
-        first_name = customer_info.get("firstName")
-        last_name = customer_info.get("lastName")
+        first_name = customer_info.get("first_name")
+        last_name = customer_info.get("last_name")
         email = customer_info.get("email")
         country = customer_info.get("country")
         phone = customer_info.get("phone")
         state = customer_info.get("state")
-        zip_code = customer_info.get("zipCode")
+        zip_code = customer_info.get("zip_code")
         customer, new_customer = Customer.objects.get_or_create(
             email=email,
             defaults={
@@ -79,7 +76,7 @@ class TicketView(APIView):
 
         return JsonResponse(
             {
-                "ticket": ticket.representation(),
+                "ticket": TicketSerializer(instance=ticket).data,
                 "credentials": (
                     {
                         "id": customer.id,

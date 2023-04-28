@@ -1,21 +1,14 @@
 from django.http import JsonResponse
-from rest_framework.views import APIView
+from rest_framework import generics
 from lottery.models import Lottery
+from lottery.serializers import LotterySerializer
 
 
-class LotteryView(APIView):
-    def get(self, request, lottery_id):
-        lottery = Lottery.objects.get(id=lottery_id)
-        response = JsonResponse(lottery.representation())
-
-        return response
+class LotteryView(generics.RetrieveAPIView):
+    queryset = Lottery.objects.all()
+    serializer_class = LotterySerializer
 
 
-class LotteryListView(APIView):
-    def get(self, request):
-        lotteries = Lottery.objects.all().order_by("-created_at")
-        response = JsonResponse(
-            {"results": [lottery.representation() for lottery in lotteries]}
-        )
-
-        return response
+class LotteryRecordsView(generics.ListAPIView):
+    queryset = Lottery.objects.all()
+    serializer_class = LotterySerializer
